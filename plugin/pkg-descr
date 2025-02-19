@@ -1,0 +1,14 @@
+Cert Warden Client
+
+Cert Warden is a centralized ACME certificate management software. This
+plugin allows the acquisition and use of certificates from Cert Warden.
+
+https://www.certwarden.com/
+
+
+Plugin Changelog
+================
+
+[v0.1]
+
+* Initial plugin release.

@@ -1,0 +1,9 @@
+<model>
+    <mount>//OPNsense/CertWardenClient</mount>
+    <description>
+        Cert Warden Client for OPNsense
+    </description>
+    <items>
+    
+    </items>
+</model>

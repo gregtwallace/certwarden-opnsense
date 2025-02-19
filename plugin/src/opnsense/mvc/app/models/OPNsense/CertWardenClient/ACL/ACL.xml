@@ -1,0 +1,9 @@
+<acl>
+    <page-services-certwardenclient>
+        <name>Services: Cert Warden Client</name>
+        <patterns>
+            <pattern>ui/certwardenclient/*</pattern>
+            <pattern>api/certwardenclient/*</pattern>
+        </patterns>
+    </page-services-certwardenclient>
+</acl>
