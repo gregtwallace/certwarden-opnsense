@@ -1,5 +1,5 @@
 <menu>
     <Services>
-      <CertWardenClient cssClass="fa fa-area-chart" VisibleName="Cert Warden Client" url="/ui/certwardenclient/" />
+      <CertWardenClient cssClass="fa fa-certificate fa-fw" VisibleName="Cert Warden Client" url="/ui/certwardenclient/" />
     </Services>
 </menu>
