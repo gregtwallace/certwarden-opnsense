@@ -1,10 +1,10 @@
 <?php
-namespace OPNsense\CertWardenClient;
+namespace GregTWallace\CertWardenClient;
 
 class IndexController extends \OPNsense\Base\IndexController
 {
     public function indexAction()
     {
-        $this->view->pick('OPNsense/CertWardenClient/index');
+        $this->view->pick('GregTWallace/CertWardenClient/index');
     }
 }

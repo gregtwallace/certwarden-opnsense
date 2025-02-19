@@ -1,5 +1,5 @@
 <?php
-namespace OPNsense\CertWardenClient;
+namespace GregTWallace\CertWardenClient;
 
 use OPNsense\Base\BaseModel;
 
