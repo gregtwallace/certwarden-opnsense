@@ -1,0 +1,21 @@
+<form>
+    <field>
+        <id>certwardenclient.settings.Enabled</id>
+        <label>Enable Plugin</label>
+        <type>checkbox</type>
+        <help><![CDATA[Enable the Cert Warden Client plugin.]]></help>
+    </field>
+    <field>
+        <id>certwardenclient.settings.CertWardenHostname</id>
+        <label>Cert Warden Hostname</label>
+        <type>text</type>
+        <help><![CDATA[The FQDN of the Cert Warden instance (e.g., certwarden.example.com).]]></help>
+        <hint>Cert Warden's FQDN</hint>
+    </field>
+    <field>
+        <id>certwardenclient.settings.CertWardenPort</id>
+        <label>Cert Warden Port</label>
+        <type>text</type>
+        <hint>Cert Warden's HTTPS Port</hint>
+    </field>
+ </form>

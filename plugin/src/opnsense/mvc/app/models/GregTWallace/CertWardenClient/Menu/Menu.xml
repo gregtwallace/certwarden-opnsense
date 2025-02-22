@@ -1,5 +1,7 @@
 <menu>
-    <Services>
-      <CertWardenClient cssClass="fa fa-certificate fa-fw" VisibleName="Cert Warden Client" url="/ui/certwardenclient/" />
-    </Services>
+  <Services>
+    <CertWardenClient cssClass="fa fa-certificate fa-fw" VisibleName="Cert Warden Client">
+      <Settings order="10" url="/ui/certwardenclient/" />
+    </CertWardenClient>
+  </Services>
 </menu>

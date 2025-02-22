@@ -4,6 +4,21 @@
         Cert Warden Client for OPNsense
     </description>
     <items>
-    
+        <settings>
+            <Enabled type="BooleanField">
+                <default>1</default>
+                <Required>Y</Required>
+            </Enabled>
+            <CertWardenHostname type="HostnameField">
+                <Required>Y</Required>
+                <ValidationMessage>Please provide a valid FQDN, e.g., certwarden.example.com.</ValidationMessage>
+            </CertWardenHostname>
+            <CertWardenPort type="PortField">
+                <default>4055</default>
+                <MinimumValue>0</MinimumValue>
+                <MaximumValue>65535</MaximumValue>
+                <Required>Y</Required>
+            </CertWardenPort>
+        </settings>
     </items>
 </model>
