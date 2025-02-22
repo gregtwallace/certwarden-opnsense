@@ -12,12 +12,23 @@ class ServiceController extends ApiMutableModelControllerBase
   // reloadAction updates the config file
   public function reloadAction()
   {
-      $status = "failed, request wasn't POST method";
+      $status = "Failed: Request wasn't POST method.";
   
       if ($this->request->isPost()) {
-          $status = strtolower(trim((new Backend())->configdRun('template reload GregTWallace/CertWardenClient')));
+          $status = trim((new Backend())->configdRun('template reload GregTWallace/CertWardenClient'));
       }
   
       return ["status" => $status];
+  }
+
+  // certwardenConnectionTestAction attempts to connect to the Cert Warden server's health endpoint
+  public function connectionTestAction() {
+    $status = "Failed: Request wasn't POST method.";
+
+    if ($this->request->isPost()) {
+      $status = trim((new Backend())->configdRun('certwardenclient connection_test'));
+    }
+
+    return ["status" => $status];
   }
 }
