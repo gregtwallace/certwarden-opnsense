@@ -1,0 +1,3 @@
+[submodule "vendor/core"]
+	path = vendor/core
+	url = https://github.com/opnsense/core

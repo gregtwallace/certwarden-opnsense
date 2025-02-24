@@ -1,5 +1,2 @@
-# https://github.com/opnsense/core repo for use with development IDE
-/core
-
 # packed dev file
 /dev/cw.tar.gz
