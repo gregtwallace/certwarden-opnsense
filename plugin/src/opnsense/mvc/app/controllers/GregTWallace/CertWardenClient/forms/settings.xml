@@ -9,13 +9,42 @@
         <id>certwardenclient.settings.CertWardenHostname</id>
         <label>Cert Warden Hostname</label>
         <type>text</type>
-        <help><![CDATA[The FQDN of the Cert Warden instance (e.g., certwarden.example.com).]]></help>
-        <hint>Cert Warden's FQDN</hint>
+        <help><![CDATA[The FQDN of the Cert Warden instance.]]></help>
+        <hint>certwarden.example.com</hint>
     </field>
     <field>
         <id>certwardenclient.settings.CertWardenPort</id>
         <label>Cert Warden Port</label>
         <type>text</type>
-        <hint>Cert Warden's HTTPS Port</hint>
+        <help><![CDATA[The HTTPS port number the Cert Warden API is running on.]]></help>
+        <hint>4055</hint>
     </field>
+
+    <field>
+        <id>certwardenclient.settings.CertName</id>
+        <label>Cert Warden Certificate Name</label>
+        <type>text</type>
+        <help><![CDATA[The certificate name, as it is in Cert Warden.]]></help>
+    </field>
+    <field>
+        <id>certwardenclient.settings.CertAPIKey</id>
+        <label>Cert Warden Certificate API Key</label>
+        <type>text</type>
+        <help><![CDATA[The API key for the certificate.]]></help>
+        <hint>123abc</hint>
+    </field>
+    <field>
+        <id>certwardenclient.settings.KeyName</id>
+        <label>Cert Warden Private Key Name</label>
+        <type>text</type>
+        <help><![CDATA[The private key name, as it is in Cert Warden.]]></help>
+    </field>
+    <field>
+        <id>certwardenclient.settings.KeyAPIKey</id>
+        <label>Cert Warden Private Key API Key</label>
+        <type>text</type>
+        <help><![CDATA[The API key for the private key.]]></help>
+        <hint>123abc</hint>
+    </field>
+
  </form>
