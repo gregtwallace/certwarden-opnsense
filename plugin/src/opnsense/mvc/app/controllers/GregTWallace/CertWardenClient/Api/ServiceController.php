@@ -50,7 +50,7 @@ class ServiceController extends ApiMutableModelControllerBase
     # fetch cert and key
     $result = json_decode((new Backend())->configdRun('certwardenclient fetch_from_cert_warden'));
     if ($result->status !== "ok") {
-      $status = $result->status . ": " . $result->message;
+      return ["status" => $result->status . ": " . $result->message];
     }
 
 
@@ -63,7 +63,7 @@ class ServiceController extends ApiMutableModelControllerBase
     $cert['refid'] = uniqid();
     $cert['descr'] = (string)$cert_cn . ' (Cert Warden)';
 
-    
+
     // import CW Client for checking and updating of ref
     $cwModel = new CertWardenClient();
     $certificateNode = $cwModel->getNodeByReference('certificate');
@@ -72,37 +72,37 @@ class ServiceController extends ApiMutableModelControllerBase
     $cert_found = false;
     // Otherwise just import as new cert.
     if (!empty((string)$certificateNode->certRefId)) {
-        // Check if the previously imported certificate can still be found
-        foreach ($certModel->cert->iterateItems() as $cfgCert) {
-            // Check if IDs match
-            if ((string)$certificateNode->certRefId == (string)$cfgCert->refid) {
-                // Use old refid instead of generating a new one
-                $cert['refid'] = (string)$cfgCert->refid;
-                $cert_found = true;
-                break;
-            }
+      // Check if the previously imported certificate can still be found
+      foreach ($certModel->cert->iterateItems() as $cfgCert) {
+        // Check if IDs match
+        if ((string)$certificateNode->certRefId == (string)$cfgCert->refid) {
+          // Use old refid instead of generating a new one
+          $cert['refid'] = (string)$cfgCert->refid;
+          $cert_found = true;
+          break;
         }
+      }
     }
 
     // Check if cert was found in config
     if ($cert_found == true) {
-        // Update existing cert
-        foreach ($certModel->cert->iterateItems() as $cfgCert) {
-            if ((string)$cfgCert->refid == $cert['refid']) {
-                $cfgCert->descr = $cert['descr'];
-                $cfgCert->crt = base64_encode($result->certificate);
-                $cfgCert->prv = base64_encode($result->private_key);
-                break;
-            }
+      // Update existing cert
+      foreach ($certModel->cert->iterateItems() as $cfgCert) {
+        if ((string)$cfgCert->refid == $cert['refid']) {
+          $cfgCert->descr = $cert['descr'];
+          $cfgCert->crt = base64_encode($result->certificate);
+          $cfgCert->prv = base64_encode($result->private_key);
+          break;
         }
+      }
     } else {
-        // Create new cert
-        $newcert = $certModel->cert->Add();
-        foreach (array_keys($cert) as $certcfg) {
-            $newcert->$certcfg = (string)$cert[$certcfg];
-        }
-        $newcert->crt = base64_encode($result->certificate);
-        $newcert->prv = base64_encode($result->private_key);
+      // Create new cert
+      $newcert = $certModel->cert->Add();
+      foreach (array_keys($cert) as $certcfg) {
+        $newcert->$certcfg = (string)$cert[$certcfg];
+      }
+      $newcert->crt = base64_encode($result->certificate);
+      $newcert->prv = base64_encode($result->private_key);
     }
 
     // Update & save config

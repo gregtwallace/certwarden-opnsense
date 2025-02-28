@@ -66,15 +66,21 @@ def main():
         "status": "failed",
         "message": "config file missing `settings` section"
       }
+    
+    if not cnf.has_section('settings_certificate'):
+      return {
+        "status": "failed",
+        "message": "config file missing `settings_certificate` section (is the plugin disabled?)"
+      }
 
     # get config values
     hostname = cnf.get('settings', 'CertWardenHostname')
     port = cnf.get('settings', 'CertWardenPort')
 
-    certName = cnf.get('settings', 'CertificateName')
-    certAPIKey = cnf.get('settings', 'CertificateAPIKey')
-    keyName = cnf.get('settings', 'PrivateKeyName')
-    keyAPIKey = cnf.get('settings', 'PrivateKeyAPIKey')
+    certName = cnf.get('settings_certificate', 'CertificateName')
+    certAPIKey = cnf.get('settings_certificate', 'CertificateAPIKey')
+    keyName = cnf.get('settings_certificate', 'PrivateKeyName')
+    keyAPIKey = cnf.get('settings_certificate', 'PrivateKeyAPIKey')
 
     # fetch cert
     certResult = fetch_from_cw(hostname, port, certName, certAPIKey, CW_API_CERT_PATH)
