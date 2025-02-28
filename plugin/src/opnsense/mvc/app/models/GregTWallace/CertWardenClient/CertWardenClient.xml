@@ -20,18 +20,23 @@
                 <Required>Y</Required>
             </CertWardenPort>
 
-            <CertName type="PortField">
+            <CertName type="TextField">
                 <Required>Y</Required>
             </CertName>
-            <CertAPIKey type="PortField">
+            <CertAPIKey type="TextField">
                 <Required>Y</Required>
             </CertAPIKey>
-            <KeyName type="PortField">
+            <KeyName type="TextField">
                 <Required>Y</Required>
             </KeyName>
-            <KeyAPIKey type="PortField">
+            <KeyAPIKey type="TextField">
                 <Required>Y</Required>
             </KeyAPIKey>
         </settings>
+        <certificate>
+            <certRefId type="TextField">
+                <Required>N</Required>
+            </certRefId>
+        </certificate>
     </items>
 </model>

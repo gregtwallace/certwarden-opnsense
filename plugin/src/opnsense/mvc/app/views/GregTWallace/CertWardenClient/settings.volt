@@ -9,8 +9,8 @@
 
     // save form and update config file
     $('#saveAct').click(function () {
-      $('[id*="saveAct_progress"]').each(function(){
-          $(this).addClass("fa fa-spinner fa-pulse");
+      $('[id*="saveAct_progress"]').each(function () {
+        $(this).addClass('fa fa-spinner fa-pulse');
       });
 
       saveFormToEndpoint(
@@ -23,13 +23,28 @@
             (sendData = {}),
             (callback = function (data, status) {
               // TODO: add a nice success message or something
-              $('[id*="saveAct_progress"]').each(function(){
-                    $(this).removeClass("fa fa-spinner fa-pulse");
+              $('[id*="saveAct_progress"]').each(function () {
+                $(this).removeClass('fa fa-spinner fa-pulse');
               });
             })
           );
         }
       );
+    });
+
+    // update Certificate in Trust Store
+    $('#updateCertAct').SimpleActionButton({
+      onAction: function (data) {
+        console.log(data);
+        if (data['status'] == 'ok') {
+          BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_INFO,
+            title: "{{ lang._('Cert Warden Cert Update Result') }}",
+            message: "{{ lang._('Update completed.') }}",
+            draggable: true,
+          });
+        }
+      },
     });
 
     // test connection to Cert Warden
@@ -53,6 +68,14 @@
     <b>{{ lang._('Save') }}</b>
     <i id="saveAct_progress" class=""></i>
   </button>
+
+  <button
+    class="btn btn-primary"
+    id="updateCertAct"
+    data-endpoint="/api/certwardenclient/service/update_cert"
+    data-label="{{ lang._('Update Cert') }}"
+  ></button>
+
   <button
     class="btn btn-primary"
     id="testConnAct"
