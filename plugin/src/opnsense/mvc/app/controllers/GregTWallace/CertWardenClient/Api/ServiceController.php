@@ -107,6 +107,11 @@ class ServiceController extends ApiMutableModelControllerBase
     Config::getInstance()->save();
     Config::getInstance()->forceReload();
 
+
+    // TEMP! -- TODO: add some configuration / eloquence to this
+    (new Backend())->configdRun('webgui restart');
+
+
     return ["status" => "ok"];
   }
 
