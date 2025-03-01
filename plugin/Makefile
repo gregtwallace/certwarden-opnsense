@@ -1,5 +1,5 @@
 PLUGIN_NAME=				cert-warden-client
-PLUGIN_VERSION=			0.1
+PLUGIN_VERSION=			0.1.0
 PLUGIN_COMMENT=			Cert Warden Client
 PLUGIN_MAINTAINER=	certwarden@gregtwallace.com
 PLUGIN_WWW=					https://www.certwarden.com/
