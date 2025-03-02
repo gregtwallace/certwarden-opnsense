@@ -1,5 +1,5 @@
 PKG = os-cert-warden-client-${VERSION}.pkg
-VERSION= 0.1.2
+VERSION= 0.1.3
 COMMITHASH= ${git rev-parse HEAD:0:9}
 
 PREFIX= /usr/local
