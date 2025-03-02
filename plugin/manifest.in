@@ -1,5 +1,5 @@
-"name": "cert-warden-client"
-"origin": "gregtwallace/cert-warden-client"
+"name": "os-cert-warden-client"
+"origin": "gregtwallace/os-cert-warden-client"
 "version": "%%VERSION%%"
 "comment": "Cert Warden Client"
 "maintainer": "certwarden@gregtwallace.com"
