@@ -109,8 +109,8 @@ class ServiceController extends ApiMutableModelControllerBase
 
 
     // TEMP! -- TODO: add some configuration / eloquence to this
+    // This breaks the button since the webui restarts before the `ok` response is returned
     (new Backend())->configdRun('webgui restart');
-
 
     return ["status" => "ok"];
   }
@@ -124,7 +124,7 @@ class ServiceController extends ApiMutableModelControllerBase
       return ["status" => "Failed: Request wasn't POST method."];
     }
 
-    $this->updateCertActionUNSAFE();
+    return $this->updateCertActionUNSAFE();
   }
 }
 
