@@ -1,0 +1,15 @@
+name: cert-warden-client
+origin: gregtwallace/cert-warden-client
+version: %%VERSION%%
+comment: Cert Warden Client
+maintainer: certwarden@gregtwallace.com
+www: https://www.certwarden.com/
+abi: FreeBSD:14:amd64
+arch: freebsd:14:x86:64
+prefix: %%PREFIX%%
+
+licenselogic: single
+licenses: ['GPL3']
+
+desc: A client to fetch Cert Warden certificates.
+categories: ['security']

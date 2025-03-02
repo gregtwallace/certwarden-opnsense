@@ -1,7 +1,29 @@
-PLUGIN_NAME=				cert-warden-client
-PLUGIN_VERSION=			0.1.0
-PLUGIN_COMMENT=			Cert Warden Client
-PLUGIN_MAINTAINER=	certwarden@gregtwallace.com
-PLUGIN_WWW=					https://www.certwarden.com/
+PKG = os-cert-warden-client-${VERSION}.pkg
+VERSION= 0.1.1
 
-.include "../../Mk/plugins.mk"
+PREFIX= /usr/local
+
+.PHONY: all clean clean-stage
+
+all: ${PKG}
+clean: clean-stage
+	rm -f ${PKG} pkg-plist manifest
+clean-stage:
+	rm -rf stage
+
+SRC_FILES = ${:! find src -type f !}
+
+${PKG}: clean-stage ${SRC_FILES}
+	mkdir -p stage${PREFIX}
+	cp -Rp src/ stage${PREFIX}/
+
+	cat manifest.in | sed -e 's|%%VERSION%%|${VERSION}|' | sed -e 's|%%PREFIX%%|${PREFIX}|' > manifest
+
+# anything not in /scripts/
+	echo ${:! find stage -type f -not -ipath '*/scripts/*' !:C/^stage//} | tr ' ' '\n' > pkg-plist
+# plist keyword to make executable
+	echo '@mode 755' >> pkg-plist
+# executable files (i.e., /scripts/)
+	echo ${:! find stage -type f -ipath '*/scripts/*' !:C/^stage//} | tr ' ' '\n' >> pkg-plist
+
+	pkg create -M manifest -r stage -p pkg-plist
