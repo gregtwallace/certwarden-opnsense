@@ -1,5 +1,6 @@
 PKG = os-cert-warden-client-${VERSION}.pkg
 VERSION= 0.1.1
+COMMITHASH= ${git rev-parse HEAD:0:9}
 
 PREFIX= /usr/local
 
@@ -17,7 +18,7 @@ ${PKG}: clean-stage ${SRC_FILES}
 	mkdir -p stage${PREFIX}
 	cp -Rp src/ stage${PREFIX}/
 
-	cat manifest.in | sed -e 's|%%VERSION%%|${VERSION}|' | sed -e 's|%%PREFIX%%|${PREFIX}|' > manifest
+	cat manifest.in | sed -e 's|%%VERSION%%|${VERSION}|' | sed -e 's|%%PREFIX%%|${PREFIX}|' | sed -e 's|%%COMMITHASH%%|${COMMITHASH}|' > manifest
 
 # anything not in /scripts/
 	echo ${:! find stage -type f -not -ipath '*/scripts/*' !:C/^stage//} | tr ' ' '\n' > pkg-plist

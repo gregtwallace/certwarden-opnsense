@@ -1,15 +1,34 @@
-name: cert-warden-client
-origin: gregtwallace/cert-warden-client
-version: %%VERSION%%
-comment: Cert Warden Client
-maintainer: certwarden@gregtwallace.com
-www: https://www.certwarden.com/
-abi: FreeBSD:14:amd64
-arch: freebsd:14:x86:64
-prefix: %%PREFIX%%
+"name": "cert-warden-client"
+"origin": "gregtwallace/cert-warden-client"
+"version": "%%VERSION%%"
+"comment": "Cert Warden Client"
+"maintainer": "certwarden@gregtwallace.com"
+"www": "https://www.certwarden.com/"
+"abi": "FreeBSD:14:amd64"
+"arch": "freebsd:14:x86:64"
+"prefix": "%%PREFIX%%"
 
-licenselogic: single
-licenses: ['GPL3']
+"licenselogic": "single"
+"licenses": ['GPL3']
 
-desc: A client to fetch Cert Warden certificates.
-categories: ['security']
+"desc": "A client to fetch Cert Warden certificates."
+"categories": ['security']
+
+"annotations": {
+  "product_abi": "25.1"
+  "product_arch": "amd64"
+  "product_conflicts": "os-cert-warden-client"
+  "product_email": "certwarden@gregtwallace.com"
+  "product_hash": "%%COMMITHASH%%"
+  "product_id": "os-cert-warden-client"
+  "product_name": "cert-warden-client"
+  "product_tier": "3"
+  "product_version": "%%VERSION%%"
+  "product_website": "https://www.certwarden.com/"
+  "FreeBDS_version": "1402000"
+}
+
+"scripts": {
+  "post-install": "if [ -f /usr/local/etc/rc.d/configd ]; then /usr/local/etc/rc.d/configd restart; fi\nif [ -f /usr/local/opnsense/mvc/script/run_migrations.php ]; then /usr/local/opnsense/mvc/script/run_migrations.php GregTWallace/CertWardenClient; fi\nif [ -f /usr/local/etc/rc.configure_plugins ]; then echo \"Reloading plugin configuration\"; /usr/local/etc/rc.configure_plugins POST_INSTALL; fi\nif [ -f /usr/local/sbin/configctl ]; then echo -n \"Reloading template GregTWallace/CertWardenClient: \"; /usr/local/sbin/configctl template reload GregTWallace/CertWardenClient; fi"
+  "post-deinstall": "if [ -f /usr/local/etc/rc.configure_plugins ]; then echo \"Reloading plugin configuration\"; /usr/local/etc/rc.configure_plugins POST_DEINSTALL; fi"
+}
