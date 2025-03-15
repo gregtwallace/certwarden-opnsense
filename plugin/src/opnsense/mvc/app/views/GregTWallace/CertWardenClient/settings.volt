@@ -60,6 +60,20 @@
         }
       },
     });
+
+    // unlink the Cert Warden cert from the Trust Store (so it can be deleted)
+    $('#unlinkCertAct').SimpleActionButton({
+      onAction: function (data) {
+        if (data['status'] == 'ok') {
+          BootstrapDialog.show({
+            type: BootstrapDialog.TYPE_INFO,
+            title: "{{ lang._('Cert Warden Cert Unlink') }}",
+            message: "{{ lang._('Cert Warden is no longer linked to the certificate in the Trust store.') }}",
+            draggable: true,
+          });
+        }
+      },
+    });
   });
 </script>
 
@@ -77,9 +91,18 @@
   ></button>
 
   <button
-    class="btn btn-primary"
+    class="btn btn-secondary"
     id="testConnAct"
     data-endpoint="/api/certwardenclient/service/connection_test"
     data-label="{{ lang._('Connection Test') }}"
   ></button>
+
+  <button
+    class="btn btn-secondary"
+    id="unlinkCertAct"
+    data-endpoint="/api/certwardenclient/settings/unlink_cert"
+    data-label="{{ lang._('Unlink Certificate') }}"
+  >
+    <i id="unlinkCertAct_progress" class=""></i>
+  </button>
 </div>
