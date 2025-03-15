@@ -1,6 +1,29 @@
 {{ partial("layout_partials/base_form",['fields':settingsForm,'id':'frm_Settings'])}}
 
 <script type="text/javascript">
+  // Borrow some Core code
+  function reloadWaitNew () {
+      $.ajax({
+          url: '/ui/certwardenclient/',
+          timeout: 1250
+      }).fail(function () {
+          setTimeout(reloadWaitOld, 1250);
+      }).done(function () {
+          window.location.assign('/ui/certwardenclient/');
+      });
+  }
+  function reloadWaitOld () {
+      $.ajax({
+          url: '/ui/certwardenclient/',
+          timeout: 1250
+      }).fail(function () {
+          setTimeout(reloadWaitNew, 1250);
+      }).done(function () {
+          window.location.assign('/ui/certwardenclient/');
+      });
+  }
+  // end Core code
+
   $(document).ready(function () {
     // populate form
     mapDataToFormUI({
@@ -35,13 +58,19 @@
     // update Certificate in Trust Store
     $('#updateCertAct').SimpleActionButton({
       onAction: function (data) {
-        console.log(data);
         if (data['status'] == 'ok') {
+          // TODO: modify forced web restart behavior
           BootstrapDialog.show({
             type: BootstrapDialog.TYPE_INFO,
-            title: "{{ lang._('Cert Warden Cert Update Result') }}",
-            message: "{{ lang._('Update completed.') }}",
-            draggable: true,
+            title: "{{ lang._('Cert Warden Client') }}",
+            closable: false,
+            message: `{{ lang._('Cert Warden certificate was successfully updated.
+              \n\n
+              The web GUI is reloading, please wait...
+              ') }}`,
+            onshow: function (dialogRef) {
+                setTimeout(reloadWaitNew, 20000);
+            },
           });
         }
       },

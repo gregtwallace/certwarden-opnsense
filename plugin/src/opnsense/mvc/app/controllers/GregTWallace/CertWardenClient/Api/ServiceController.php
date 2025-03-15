@@ -113,8 +113,7 @@ class ServiceController extends ApiMutableModelControllerBase
 
 
     // TEMP! -- TODO: add some configuration / eloquence to this
-    // This breaks the button since the webui restarts before the `ok` response is returned
-    (new Backend())->configdRun('webgui restart');
+    (new Backend())->configdRun('webgui restart 3', true);
 
 
     return ["status" => "ok"];
