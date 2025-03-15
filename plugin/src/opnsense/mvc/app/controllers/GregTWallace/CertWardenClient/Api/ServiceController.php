@@ -38,16 +38,20 @@ class ServiceController extends ApiMutableModelControllerBase
     return ["status" => $status];
   }
 
-  // updateCertActionUNSAFE attempts to fetch the certificate from Cert Warden and then update's the
-  // OPNsense trust store - DOES NOT ENFORE REQUIREMENT of "POST"
-  public function updateCertActionUNSAFE()
+  // updateCertAction attempts to fetch the certificate from Cert Warden and then update's the
+  // OPNsense trust store
+  public function updateCertAction()
   {
+    # must be POST
+    if (!$this->request->isPost()) {
+      return ["status" => "Failed: Request wasn't POST method."];
+    }
+
     # fetch cert and key
     $result = json_decode((new Backend())->configdRun('certwardenclient fetch_from_cert_warden'));
     if ($result->status !== "ok") {
       return ["status" => $result->status . ": " . $result->message];
     }
-
 
     # save cert to Trust Store
     $cert_details = CertStore::parseX509($result->certificate);
@@ -112,19 +116,7 @@ class ServiceController extends ApiMutableModelControllerBase
     // This breaks the button since the webui restarts before the `ok` response is returned
     (new Backend())->configdRun('webgui restart');
 
+
     return ["status" => "ok"];
   }
-
-  // updateCertAction attempts to fetch the certificate from Cert Warden and then update's the
-  // OPNsense trust store
-  public function updateCertAction()
-  {
-    # must be POST
-    if (!$this->request->isPost()) {
-      return ["status" => "Failed: Request wasn't POST method."];
-    }
-
-    return $this->updateCertActionUNSAFE();
-  }
 }
-
