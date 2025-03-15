@@ -9,3 +9,6 @@ rm -rf /usr/local/opnsense/scripts/GregTWallace/CertWardenClient
 # files
 rm -f /usr/local/opnsense/service/conf/actions.d/actions_certwardenclient.conf
 rm -f /usr/local/etc/certwardenclient.conf
+
+# do some reloading
+/usr/local/etc/rc.configure_plugins POST_DEINSTALL
