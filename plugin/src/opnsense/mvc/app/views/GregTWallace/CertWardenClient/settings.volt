@@ -97,7 +97,7 @@
           BootstrapDialog.show({
             type: BootstrapDialog.TYPE_INFO,
             title: "{{ lang._('Cert Warden Cert Unlink') }}",
-            message: "{{ lang._('Cert Warden is no longer linked to the certificate in the Trust store.') }}",
+            message: "{{ lang._('Cert Warden is no longer linked to the certificate in the Trust Store.') }}",
             draggable: true,
           });
         }
