@@ -67,7 +67,9 @@
             message: `{{ lang._('Cert Warden certificate was successfully updated.
               \n\n
               The web GUI is reloading, please wait...
-              ') }}`,
+              \n\n
+              If the page does not reload %sclick here%s. 
+              ') | format('<a href="/ui/certwardenclient/">','</a>') }}`,
             onshow: function (dialogRef) {
                 setTimeout(reloadWaitNew, 20000);
             },
