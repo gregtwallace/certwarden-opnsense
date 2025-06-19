@@ -57,11 +57,15 @@ class ServiceController extends ApiMutableModelControllerBase
     $cert_details = CertStore::parseX509($result->certificate);
     $cert_cn      = $cert_details['commonname'];
 
+    # If cert does not have a common name, use its first dns altname
+    if ((string)$cert_cn == '') {
+      $cert_cn = strtok($cert_details['altnames_dns'], "\n");
+    }
+
     $certModel = new Cert();
     $cert = array();
     $cert['refid'] = uniqid();
     $cert['descr'] = (string)$cert_cn . ' (Cert Warden)';
-
 
     // import CW Client for checking and updating of ref
     $cwModel = new CertWardenClient();
