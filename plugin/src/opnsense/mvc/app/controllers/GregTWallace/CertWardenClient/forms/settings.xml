@@ -19,6 +19,12 @@
         <help><![CDATA[The HTTPS port number the Cert Warden API is running on.]]></help>
         <hint>4055</hint>
     </field>
+    <field>
+        <id>certwardenclient.settings.SaveToDisk</id>
+        <label>Save Key &amp; Certificate to Disk</label>
+        <type>checkbox</type>
+        <help><![CDATA[Save key.pem and cert.pem to `/var/etc/certwardenclient`.]]></help>
+    </field>
 
     <field>
         <id>certwardenclient.settings.CertName</id>

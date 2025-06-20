@@ -13,6 +13,8 @@ CW_API_PRIVATE_KEY_PATH = "/certwarden/api/v1/download/privatekeys"
 # Config
 CERTWARDEN_CLIENT_CONFIG = "/usr/local/etc/certwardenclient.conf"
 
+# Key/Cert Storage Location
+CERTWARDEN_STORAGE_PATH = "/var/etc/certwardenclient"
 
 
 # fetch_from_cw is a function to do an API call to cert warden
@@ -82,6 +84,8 @@ def main():
     keyName = cnf.get('settings_certificate', 'PrivateKeyName')
     keyAPIKey = cnf.get('settings_certificate', 'PrivateKeyAPIKey')
 
+    saveToDisk = cnf.get('settings', 'SaveToDisk')
+
     # fetch cert
     certResult = fetch_from_cw(hostname, port, certName, certAPIKey, CW_API_CERT_PATH)
     if not certResult["status"] == "ok":
@@ -97,6 +101,28 @@ def main():
         "status": "failed",
         "message": f"key fetch failed {keyResult['message']}"
       }
+
+    # update storage files
+    if not os.path.exists(CERTWARDEN_STORAGE_PATH):
+      os.makedirs(CERTWARDEN_STORAGE_PATH)
+
+    certFile = os.path.join(CERTWARDEN_STORAGE_PATH, 'cert.pem')
+    keyFile = os.path.join(CERTWARDEN_STORAGE_PATH, 'key.pem')
+
+    if saveToDisk:
+      f = open(certFile, "w")
+      f.write(certResult["data"])
+      f.close()
+
+      f = open(keyFile, "w")
+      f.write(keyResult["data"])
+      f.close()
+    else:
+      # don't save to disk, delete what's on disk
+      if os.path.exists(certFile):
+        os.remove(certFile)
+      if os.path.exists(keyFile):
+        os.remove(keyFile)
 
     # return result
     return {
