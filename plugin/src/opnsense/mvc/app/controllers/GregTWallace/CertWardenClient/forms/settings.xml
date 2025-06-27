@@ -31,6 +31,12 @@
         <type>checkbox</type>
         <help><![CDATA[Save key.pem and cert.pem to `/var/etc/certwardenclient`.]]></help>
     </field>
+        <field>
+        <id>certwardenclient.settings.RestartAGH</id>
+        <label>Restart AdGuard Home</label>
+        <type>checkbox</type>
+        <help><![CDATA[Restart AdGuard Home plugin after certificate updates.]]></help>
+    </field>
 
     <field>
         <id>certwardenclient.settings.CertName</id>

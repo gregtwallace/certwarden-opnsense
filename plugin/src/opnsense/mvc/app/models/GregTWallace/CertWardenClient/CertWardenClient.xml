@@ -27,6 +27,10 @@
                 <default>0</default>
                 <Required>Y</Required>
             </SaveToDisk>
+            <RestartAGH type="BooleanField">
+                <default>0</default>
+                <Required>Y</Required>
+            </RestartAGH>
 
             <CertName type="TextField">
                 <Required>Y</Required>

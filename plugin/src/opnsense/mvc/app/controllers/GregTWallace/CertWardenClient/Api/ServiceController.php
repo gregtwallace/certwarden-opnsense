@@ -127,7 +127,15 @@ class ServiceController extends ApiMutableModelControllerBase
     // do additional actions only if existing cert was updated
     $web_ui_restart = false;
     if ($cert_updated) {
-      if (((string)$cwModel->getNodeByReference('settings')->RestartWebUI) == "1") {
+      $settingsNode = $cwModel->getNodeByReference('settings');
+
+      // agh restart
+      if (((string)$settingsNode->RestartAGH) == "1") {
+        (new Backend())->configdRun('adguardhome restart', true);
+      }
+
+      // web ui restart
+      if (((string)$settingsNode->RestartWebUI) == "1") {
         $web_ui_restart = true;
         (new Backend())->configdRun('webgui restart 3', true);
       }
