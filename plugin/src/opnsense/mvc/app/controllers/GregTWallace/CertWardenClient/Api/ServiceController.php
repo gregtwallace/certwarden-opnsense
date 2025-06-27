@@ -71,34 +71,41 @@ class ServiceController extends ApiMutableModelControllerBase
     $cwModel = new CertWardenClient();
     $certificateNode = $cwModel->getNodeByReference('certificate');
 
-    // Check if cert was previously imported.
+    // Check if cert was previously imported and update existing if it was.
     $cert_found = false;
+    $cert_updated = false;
     // Otherwise just import as new cert.
     if (!empty((string)$certificateNode->certRefId)) {
       // Check if the previously imported certificate can still be found
       foreach ($certModel->cert->iterateItems() as $cfgCert) {
         // Check if IDs match
         if ((string)$certificateNode->certRefId == (string)$cfgCert->refid) {
+          $cert_found = true;
           // Use old refid instead of generating a new one
           $cert['refid'] = (string)$cfgCert->refid;
-          $cert_found = true;
+
+          // check if new cert is same as old
+          $new_cert = base64_encode($result->certificate);
+          if ($new_cert != $cfgCert->crt) {
+            // update if new is not the same as old
+            $cert_updated = true;
+
+            $cfgCert->descr = $cert['descr'];
+            $cfgCert->crt = $new_cert;
+            $cfgCert->prv = base64_encode($result->private_key);
+          }
+
           break;
         }
       }
     }
 
-    // Check if cert was found in config
-    if ($cert_found == true) {
-      // Update existing cert
-      foreach ($certModel->cert->iterateItems() as $cfgCert) {
-        if ((string)$cfgCert->refid == $cert['refid']) {
-          $cfgCert->descr = $cert['descr'];
-          $cfgCert->crt = base64_encode($result->certificate);
-          $cfgCert->prv = base64_encode($result->private_key);
-          break;
-        }
-      }
-    } else {
+    // if wasn't found, import as new
+    if (!$cert_found) {
+      // NOT setting updated_cert to true; nothing will be using the cert if
+      // it is brand new, so no need to restart anything or consider a new
+      // cert as an update
+
       // Create new cert
       $newcert = $certModel->cert->Add();
       foreach (array_keys($cert) as $certcfg) {
@@ -108,18 +115,28 @@ class ServiceController extends ApiMutableModelControllerBase
       $newcert->prv = base64_encode($result->private_key);
     }
 
-    // Update & save config
-    $certificateNode->certRefId = $cert['refid'];
-    $certModel->serializeToConfig(false, true);
-    $cwModel->serializeToConfig(false, true);
-    Config::getInstance()->save();
-    Config::getInstance()->forceReload();
+    // Update & save config (if new cert, or did update existing)
+    if (!$cert_found || $cert_updated) {
+      $certificateNode->certRefId = $cert['refid'];
+      $certModel->serializeToConfig(false, true);
+      $cwModel->serializeToConfig(false, true);
+      Config::getInstance()->save();
+      Config::getInstance()->forceReload();
+    }
 
-
-    // TEMP! -- TODO: add some configuration / eloquence to this
-    (new Backend())->configdRun('webgui restart 3', true);
-
-
-    return ["status" => "ok"];
+    // do additional actions only if existing cert was updated
+    $web_ui_restart = false;
+    if ($cert_updated) {
+      // TEMP! -- TODO: add some configuration / eloquence to this
+      $web_ui_restart = true;
+      (new Backend())->configdRun('webgui restart 3', true);
+    }
+  
+    return [
+      "status" => "ok",
+      "cert_found" => $cert_found,
+      "cert_updated" => $cert_updated,
+      "web_ui_restart" => $web_ui_restart
+    ];
   }
 }

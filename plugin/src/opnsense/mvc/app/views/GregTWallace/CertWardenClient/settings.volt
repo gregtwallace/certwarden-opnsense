@@ -59,20 +59,32 @@
     $('#updateCertAct').SimpleActionButton({
       onAction: function (data) {
         if (data['status'] == 'ok') {
-          // TODO: modify forced web restart behavior
+          $canClose = true;
+          $messageStr = "{{ lang._('Cert Warden certificate already up to date.')}}";
+          $onShowFunc = function(dialogReg){};
+          if (!data['cert_found'] || data['cert_updated']) {
+            if (data['web_ui_restart']) {
+              $canClose = false;
+              $messageStr = `{{ lang._('Cert Warden certificate was successfully updated.
+                \n\n
+                The web GUI is reloading, please wait...
+                \n\n
+                If the page does not reload %sclick here%s.
+                ') | format('<a href="/ui/certwardenclient/">','</a>') }}`;
+              $onShowFunc = function (dialogRef) {
+                setTimeout(reloadWaitNew, 20000);
+              };
+            } else {
+              $messageStr = "{{ lang._('Cert Warden certificate updated.')}}";
+            }
+          }
+
           BootstrapDialog.show({
             type: BootstrapDialog.TYPE_INFO,
             title: "{{ lang._('Cert Warden Client') }}",
-            closable: false,
-            message: `{{ lang._('Cert Warden certificate was successfully updated.
-              \n\n
-              The web GUI is reloading, please wait...
-              \n\n
-              If the page does not reload %sclick here%s. 
-              ') | format('<a href="/ui/certwardenclient/">','</a>') }}`,
-            onshow: function (dialogRef) {
-                setTimeout(reloadWaitNew, 20000);
-            },
+            closable: $canClose,
+            message: $messageStr,
+            onshow: $onShowFunc,
           });
         }
       },
