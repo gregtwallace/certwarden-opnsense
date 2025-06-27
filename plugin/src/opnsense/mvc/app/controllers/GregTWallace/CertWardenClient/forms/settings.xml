@@ -20,6 +20,12 @@
         <hint>4055</hint>
     </field>
     <field>
+        <id>certwardenclient.settings.RestartWebUI</id>
+        <label>Restart OPNsense WebUI</label>
+        <type>checkbox</type>
+        <help><![CDATA[Restart OPNsense WebUI after certificate updates.]]></help>
+    </field>
+    <field>
         <id>certwardenclient.settings.SaveToDisk</id>
         <label>Save Key &amp; Certificate to Disk</label>
         <type>checkbox</type>

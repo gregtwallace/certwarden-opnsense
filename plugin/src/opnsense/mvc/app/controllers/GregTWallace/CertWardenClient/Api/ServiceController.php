@@ -127,9 +127,10 @@ class ServiceController extends ApiMutableModelControllerBase
     // do additional actions only if existing cert was updated
     $web_ui_restart = false;
     if ($cert_updated) {
-      // TEMP! -- TODO: add some configuration / eloquence to this
-      $web_ui_restart = true;
-      (new Backend())->configdRun('webgui restart 3', true);
+      if (((string)$cwModel->getNodeByReference('settings')->RestartWebUI) == "1") {
+        $web_ui_restart = true;
+        (new Backend())->configdRun('webgui restart 3', true);
+      }
     }
   
     return [
