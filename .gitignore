@@ -1,2 +1,7 @@
 # packed dev file
 /dev/cw.tar.gz
+
+# staging during Makefile build
+/plugin/stage
+/plugin/manifest
+/plugin/pkg-plist
