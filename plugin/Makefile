@@ -1,5 +1,5 @@
 PKG = os-cert-warden-client-${VERSION}.pkg
-VERSION= 0.2.0
+VERSION= 0.2.1
 
 # Git HASH
 COMMITHASH!= git rev-list HEAD --max-count=1 | cut -c1-9
