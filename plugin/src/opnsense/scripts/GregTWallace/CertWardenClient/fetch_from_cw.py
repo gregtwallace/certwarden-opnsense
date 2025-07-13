@@ -31,8 +31,8 @@ def fetch_from_cw(hostname, port, objName, objAPIKey, endpointPath):
     response = requests.get(url=endpoint, headers=headers)
     if response.status_code != 200:
       result = {
-        "status": "failed",
-        "message": f"status code {response.status_code}"
+        "status": "Failed",
+        "message": f"Status code {response.status_code}"
       }
     else:
       result = {
@@ -42,8 +42,8 @@ def fetch_from_cw(hostname, port, objName, objAPIKey, endpointPath):
 
   except:
     result = {
-        "status": "failed",
-        "message": "unknown request error"
+        "status": "Failed",
+        "message": "Unknown request error."
       }
 
   return result
@@ -56,8 +56,8 @@ def main():
     # verify config exists
     if not os.path.exists(CERTWARDEN_CLIENT_CONFIG):
       return {
-        "status": "failed",
-        "message": "config file not found"
+        "status": "Failed",
+        "message": "Plugin not configured."
       }
 
     # read config
@@ -65,14 +65,21 @@ def main():
     cnf.read(CERTWARDEN_CLIENT_CONFIG)
     if not cnf.has_section('settings'):
       return {
-        "status": "failed",
-        "message": "config file missing `settings` section"
+        "status": "Failed",
+        "message": "Plugin not configured."
       }
     
     if not cnf.has_section('settings_certificate'):
       return {
-        "status": "failed",
-        "message": "config file missing `settings_certificate` section (is the plugin disabled?)"
+        "status": "Failed",
+        "message": "Plugin not configured."
+      }
+    
+    # verify plugin is enabled
+    if cnf.get('settings', 'Enabled') != '1':
+      return {
+        "status": "Failed",
+        "message": "Plugin is not enabled."
       }
 
     # get config values
@@ -90,16 +97,16 @@ def main():
     certResult = fetch_from_cw(hostname, port, certName, certAPIKey, CW_API_CERT_PATH)
     if not certResult["status"] == "ok":
       return {
-        "status": "failed",
-        "message": f"cert fetch failed {certResult['message']}"
+        "status": "Failed",
+        "message": f"Cert fetch failed {certResult['message']}."
       }
     
     # fetch key
     keyResult = fetch_from_cw(hostname, port, keyName, keyAPIKey, CW_API_PRIVATE_KEY_PATH)
     if not keyResult["status"] == "ok":
       return {
-        "status": "failed",
-        "message": f"key fetch failed {keyResult['message']}"
+        "status": "Failed",
+        "message": f"Key fetch failed {keyResult['message']}."
       }
 
     # update storage files
@@ -133,7 +140,7 @@ def main():
 
   except:
     return {
-      "status": "failed",
+      "status": "Failed",
       "message": "unknown error"
     }
 

@@ -1,6 +1,5 @@
 #!/usr/local/bin/python3
 
-import json
 import os
 import requests
 
@@ -27,20 +26,21 @@ def check_health(hostname, port):
 
 
 # main
-result = "Failed: Config file not found."
+def main():
+  if not os.path.exists(CERTWARDEN_CLIENT_CONFIG):
+    return "Failed: Plugin not configured."
+  
+  cnf = ConfigParser()
+  cnf.read(CERTWARDEN_CLIENT_CONFIG)
+  if not cnf.has_section('settings'):
+    return "Failed: Plugin not configured."
 
-if os.path.exists(CERTWARDEN_CLIENT_CONFIG):
-    cnf = ConfigParser()
-    cnf.read(CERTWARDEN_CLIENT_CONFIG)
-    if cnf.has_section('settings'):
-      # get config values to test
-      hostname = cnf.get('settings', 'CertWardenHostname')
-      port = cnf.get('settings', 'CertWardenPort')
+  # get config values to test
+  hostname = cnf.get('settings', 'CertWardenHostname')
+  port = cnf.get('settings', 'CertWardenPort')
 
-      result = check_health(hostname, port)
+  return check_health(hostname, port)
 
-    else:
-      result = "Failed: Config file missing `settings` section."
 
-# print essentially "returns" the value to OPNsense
-print(result)
+# run main and print result (essentially "returns" the value to OPNsense)
+print(main())
