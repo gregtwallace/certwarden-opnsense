@@ -1,5 +1,6 @@
 <model>
     <mount>//GregTWallace/CertWardenClient</mount>
+    <version>0.2.0</version>
     <description>
         Cert Warden Client for OPNsense
     </description>
