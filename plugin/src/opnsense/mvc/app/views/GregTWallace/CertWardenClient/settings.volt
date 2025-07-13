@@ -46,13 +46,14 @@
             (sendData = {}),
             (callback = function (data, status) {
               // TODO: add a nice success message or something
-              $('[id*="saveAct_progress"]').each(function () {
-                $(this).removeClass('fa fa-spinner fa-pulse');
-              });
             })
           );
         }
       );
+
+      $('[id*="saveAct_progress"]').each(function () {
+        $(this).removeClass('fa fa-spinner fa-pulse');
+      });
     });
 
     // update Certificate in Trust Store
