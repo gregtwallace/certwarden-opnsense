@@ -1,6 +1,12 @@
 PKG = os-cert-warden-client-${VERSION}.pkg
 VERSION= 0.2.0
-COMMITHASH= ${git rev-parse HEAD:0:9}
+
+# Git HASH
+COMMITHASH!= git rev-list HEAD --max-count=1 | cut -c1-9
+.if empty(COMMITHASH)
+COMMITHASH= undefined
+.endif
+#
 
 PREFIX= /usr/local
 
